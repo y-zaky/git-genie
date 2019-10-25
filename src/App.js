@@ -1,24 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
-function App() {
+import SearchForm from './containers/searchForm'
+
+import { Title,Tagline } from "./containers/styledCSS.js";
+
+const App = () => {
+  const [data, getData ] = useState('')
+  const [form, setValues] = useState({
+    githubUser: '',
+    user:'',
+    typeOfUser: ''
+
+  })
+
+  // const {githubUser} = form
+  const handleChange = ({target:{name,value}}) =>{
+    setValues({...form, [name]:value})
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    console.log('submitted')
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Title>Git Genie</Title>
+        <Tagline>your wish is my command..</Tagline>
       </header>
+      <main>
+        <SearchForm handleSubmit={handleSubmit} handleChange={handleChange}/>
+      </main>
     </div>
   );
 }

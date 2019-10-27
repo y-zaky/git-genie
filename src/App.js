@@ -6,24 +6,71 @@ import SearchForm from './containers/searchForm'
 import { Title,Tagline } from "./containers/styledCSS.js";
 
 const App = () => {
-  const [data, getData ] = useState('')
   const [form, setValues] = useState({
     githubUser: '',
-    user:'',
-    typeOfUser: ''
-
+    typeOfUser: '',
+    errors:{
+      githubUser:false
+    },
+    repos: {},
+    isValidated: false
   })
 
-  // const {githubUser} = form
-  const handleChange = ({target:{name,value}}) =>{
-    setValues({...form, [name]:value})
+  const hasError = (name,value) =>  {
+    // console.log(form)
+    const alphaNumericExp = /[^a-zA-Z0-9\-\s/]/
+    // console.log('name',name,value)
+        if (value.match(alphaNumericExp))  {
+          setValues({...form, errors:{...form.errors, [name]: 'must be alphanumeric' }})
+          // return true
+        }
+        else { 
+          setValues({...form, errors:{...form.errors, [name]: false }})
+          // return false
+        }
   }
+
+
+  
+  const handleChange = ({target:{name,value}}) =>{
+    // ('im called', name, value)
+    setValues({...form, [name]:value})
+    // hasError(name,value)
+  }
+
+  
+  useEffect( () => {
+    let userChangedSearchTerm = false
+    
+    const apiCall = async () => {
+      const {githubUser,typeOfUser} = form
+      const response = await fetch('/backend')
+      const body = await response.json();
+  
+      if (response.status !== 200) {
+        throw Error(body.message) 
+      }
+      // why do i have to do this line below
+      // eslint-disable-next-line
+      if (!userChangedSearchTerm) setValues({...form, data: body})
+    }
+    // const url = `api.github.com/users/${form.githubUser}/repos`
+     apiCall()
+
+    return () => userChangedSearchTerm = true
+
+    // why do i have to do this line below
+      // eslint-disable-next-line
+  },[form.isValidated]) 
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log('submitted')
+    if (!form.errors.githubUser) setValues({...form, isValidated:true})
+    // console.log('submitted')
   }
 
+
+  const {errors,githubUser} = form
   return (
     <div className="App">
       <header className="App-header">
@@ -31,7 +78,7 @@ const App = () => {
         <Tagline>your wish is my command..</Tagline>
       </header>
       <main>
-        <SearchForm handleSubmit={handleSubmit} handleChange={handleChange}/>
+        <SearchForm errors={errors} handleSubmit={handleSubmit} handleChange={handleChange} githubUser={githubUser}/>
       </main>
     </div>
   );

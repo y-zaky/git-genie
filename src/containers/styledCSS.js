@@ -12,11 +12,16 @@ const Input = styled.input`
 `
 const Dropdown = styled.select`
 `
+const ErrorMessage = styled.p`
+font-size:0.5rem;
+color:red;
+`
 
 
 export {
   Title,
   Tagline,
   Input,
-  Dropdown
+  Dropdown,
+  ErrorMessage
 }

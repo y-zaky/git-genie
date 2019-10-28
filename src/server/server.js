@@ -8,6 +8,8 @@ app.listen(port, () => {
 
 app.get('/backend', (req,res) => {
   // res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' })
-  res.send('<h1>BACK END</h1>')
+   // const url = `api.github.com/users/${form.githubUser}/repos`
+   console.log('called backend', req,res)
+  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' })
 })
 

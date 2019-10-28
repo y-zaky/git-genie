@@ -17,11 +17,8 @@ const App = () => {
   });
 
   const hasError = (name, value) => {
-    // console.log(form)
     const alphaNumericExp = /[^a-zA-Z0-9\-\s/]/;
-    // console.log('name',name,value)
     if (value.match(alphaNumericExp)) {
-      console.log('hi')
       setValues(prevState => ({
         ...prevState,
         errors: { ...prevState.errors, [name]: "must be alphanumeric" }
@@ -37,9 +34,8 @@ const App = () => {
   };
 
   const handleChange = ({ target: { name, value } }) => {
-    // ('im called', name, value)
     setValues({ ...form, [name]: value });
-    hasError(name,value)
+    hasError(name, value);
   };
 
   useEffect(() => {
@@ -47,17 +43,24 @@ const App = () => {
 
     const apiCall = async () => {
       const { githubUser, typeOfUser } = form;
-      const response = await fetch("/backend");
-      const body = await response.json();
 
-      if (response.status !== 200) {
-        throw Error(body.message);
+      try {
+        const response = await fetch("/backend");
+        const body = await response;
+
+        if (response.status !== 200) {
+          throw Error(body.message);
+        }
+
+        if (!userChangedSearchTerm)
+          setValues(prevState => ({
+            ...prevState,
+            data: body
+          }));
+      } catch (error) {
+        console.log("server error", error);
       }
-      // why do i have to do this line below
-      // eslint-disable-next-line
-      if (!userChangedSearchTerm) setValues({ ...form, data: body });
     };
-    // const url = `api.github.com/users/${form.githubUser}/repos`
     apiCall();
 
     return () => (userChangedSearchTerm = true);
@@ -68,7 +71,8 @@ const App = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (!form.errors.githubUser) setValues({ ...form, isValidated: true });
+    if (!form.errors.githubUser)
+      setValues(prevState => ({ ...prevState, isValidated: true }));
     // console.log('submitted')
   };
 

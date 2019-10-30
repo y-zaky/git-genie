@@ -3,12 +3,24 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 
+const fetch = require('node-fetch')
 
-// console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// create a GET route
-app.get('/backend', (req, res) => {
-  console.log('port')
-  res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
+app.get('/backend/:typeOfUser/:username/repos', (req, res) => {
+
+  const githubApiCall = async () => {
+    try {
+    const url = `http://api.github.com/${req.params.typeOfUser}/${req.params.username}/repos`
+    const response= await fetch(url)
+    const body = await response.text()
+    res.send(body);
+    }
+    catch (error) {
+      res.send(error.message)
+    }
+  }
+  
+  githubApiCall()
+
 });

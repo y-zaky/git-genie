@@ -7,14 +7,19 @@ import { Title, Tagline } from "./containers/styledCSS.js";
 
 const App = () => {
   const [form, setValues] = useState({
-    githubUser: "",
-    typeOfUser: "",
+    username: "",
+    typeOfUser: "users",
     errors: {
-      githubUser: false
+      username: false
     },
     repos: {},
-    isValidated: false
+    isValidated: false,
+    data:{
+      body:null,
+      errors:null
+    }
   });
+  const [isValidated,setValidation] = useState(false)
 
   const hasError = (name, value) => {
     const alphaNumericExp = /[^a-zA-Z0-9\-\s/]/;
@@ -42,13 +47,12 @@ const App = () => {
     let userChangedSearchTerm = false;
 
     const apiCall = async () => {
-      const { githubUser, typeOfUser } = form;
-
+      const { username, typeOfUser } = form;
       try {
-        const response = await fetch('/backend');
-        const body = await response.json();
-        console.log('body',body)
-
+        const response = await fetch(`backend/${typeOfUser}/${username}/repos`);
+        const body = await response.json()
+        
+        debugger
         if (response.status !== 200) {
           throw Error(body.message);
         }
@@ -56,28 +60,29 @@ const App = () => {
         if (!userChangedSearchTerm)
           setValues(prevState => ({
             ...prevState,
-            data: body
+            data: {...prevState.data, body: body, errors:false}
           }));
       } catch (error) {
-        console.log("server error", error);
+        setValues(prevState => ({
+          ...prevState,
+          data: {...prevState.data, errors: error.message}
+        }));
       }
     };
     apiCall();
 
     return () => (userChangedSearchTerm = true);
 
-    // why do i have to do this line below
-    // eslint-disable-next-line
-  }, [form.isValidated]);
+  }, [isValidated]);
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (!form.errors.githubUser)
-      setValues(prevState => ({ ...prevState, isValidated: true }));
+    if (!form.errors.username)
+      setValidation(prevState => ({ ...prevState, isValidated: true }));
     // console.log('submitted')
   };
 
-  const { errors, githubUser } = form;
+  const { errors, username } = form;
   return (
     <div className="App">
       <header className="App-header">
@@ -89,7 +94,7 @@ const App = () => {
           errors={errors}
           handleSubmit={handleSubmit}
           handleChange={handleChange}
-          githubUser={githubUser}
+          username={username}
         />
       </main>
     </div>

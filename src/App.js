@@ -45,8 +45,9 @@ const App = () => {
       const { githubUser, typeOfUser } = form;
 
       try {
-        const response = await fetch("/backend");
-        const body = await response;
+        const response = await fetch('/backend');
+        const body = await response.json();
+        console.log('body',body)
 
         if (response.status !== 200) {
           throw Error(body.message);

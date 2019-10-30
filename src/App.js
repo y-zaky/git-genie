@@ -14,12 +14,12 @@ const App = () => {
     },
     repos: {},
     isValidated: false,
-    data:{
-      body:null,
-      errors:null
+    data: {
+      body: null,
+      errors: null
     }
   });
-  const [isValidated,setValidation] = useState(false)
+  const [isValidated, setValidation] = useState(false);
 
   const hasError = (name, value) => {
     const alphaNumericExp = /[^a-zA-Z0-9\-\s/]/;
@@ -50,9 +50,7 @@ const App = () => {
       const { username, typeOfUser } = form;
       try {
         const response = await fetch(`backend/${typeOfUser}/${username}/repos`);
-        const body = await response.json()
-        
-        debugger
+        const body = await response.json();
         if (response.status !== 200) {
           throw Error(body.message);
         }
@@ -60,19 +58,18 @@ const App = () => {
         if (!userChangedSearchTerm)
           setValues(prevState => ({
             ...prevState,
-            data: {...prevState.data, body: body, errors:false}
+            data: { ...prevState.data, body: body, errors: false }
           }));
       } catch (error) {
         setValues(prevState => ({
           ...prevState,
-          data: {...prevState.data, errors: error.message}
+          data: { ...prevState.data, errors: error.message }
         }));
       }
     };
     apiCall();
 
     return () => (userChangedSearchTerm = true);
-
   }, [isValidated]);
 
   const handleSubmit = event => {

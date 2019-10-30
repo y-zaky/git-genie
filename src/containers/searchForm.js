@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 // import ErrorMessage from '../components/ErrorMessage'
 import { Input, Dropdown, ErrorMessage } from "./styledCSS";
@@ -8,7 +8,7 @@ export default ({ handleChange, handleSubmit, username, errors }) => {
   return (
     <form id={"searchForm"} onSubmit={handleSubmit}>
       
-        I want to find the
+        I want to find the repos for the
         <Dropdown name={"typeOfUser"} onChange={handleChange}>
           <option value={"users"}>user</option>
           <option value={"orgs"}>organisation</option>
@@ -18,6 +18,9 @@ export default ({ handleChange, handleSubmit, username, errors }) => {
           name={"username"}
           onChange={handleChange}
           value={username}
+          placeholder={"y-zaky" }
+          error={errors.username}
+          autofocus
         ></Input>
         {errors.username && <ErrorMessage>{errors.username}</ErrorMessage>}
       

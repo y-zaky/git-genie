@@ -4,7 +4,8 @@ import "./App.css";
 import SearchForm from "./containers/searchForm";
 import ReposContainer from "./containers/reposContainer";
 
-import { Title, Tagline } from "./containers/styledCSS.js";
+import { Title, Tagline, GenieImage } from "./containers/styledCSS.js";
+import genie from './images/genie.png'
 
 const App = () => {
   const [form, setValues] = useState({
@@ -104,7 +105,8 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <Title>Git Genie</Title>
-        <Tagline>your wish is my command..</Tagline>
+        <GenieImage src={genie}></GenieImage>
+        <Tagline>"YOUR WISH...IS MY COMMAND.."</Tagline>
       </header>
       <main>
         <SearchForm

@@ -25,7 +25,7 @@ A tool to allow anyone to search for repos created by a user or organisation
 
 ### Tech
 
-Dillinger uses a number of open source projects to work properly:
+GitGenie uses a number of open source projects to work properly:
 
 * [Styled Components] - Makes it easy to style with JavaScript in React!
 * [Node Fetch] - awesome node based Fetch API

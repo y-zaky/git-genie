@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 import SearchForm from "./containers/searchForm";
 import ReposContainer from "./containers/reposContainer";
 
 import { Title, Tagline, GenieImage } from "./containers/styledCSS.js";
-import genie from './images/genie.png'
+import genie from "./images/genie.png";
 
 const App = () => {
   const [form, setValues] = useState({
@@ -20,14 +20,13 @@ const App = () => {
       errors: null
     }
   });
-  const [isValidated, setValidation] = useState(false);
 
   const hasError = (name, value) => {
     const alphaNumericExp = /[^a-zA-Z0-9\-\s/]/;
     if (value.match(alphaNumericExp)) {
       setValues(prevState => ({
         ...prevState,
-        errors: { ...prevState.errors, [name]: "must be alphanumeric" }
+        errors: { ...prevState.errors, [name]: "Error: Must be alphanumeric" }
       }));
     } else {
       setValues(prevState => ({
@@ -42,36 +41,6 @@ const App = () => {
     hasError(name, value);
   };
 
-  // i blanked this out as i probably dont need it ?
-  // useEffect(() => {
-  //   let userChangedSearchTerm = false;
-
-  //   const apiCall = async () => {
-  //     const { username, typeOfUser } = form;
-  //     try {
-  //       const response = await fetch(`backend/${typeOfUser}/${username}/repos`);
-  //       const body = await response.json();
-  //       if (response.status !== 200) {
-  //         throw Error(body.message);
-  //       }
-
-  //       if (!userChangedSearchTerm)
-  //         setValues(prevState => ({
-  //           ...prevState,
-  //           data: { ...prevState.data, body: body, errors: false }
-  //         }));
-  //     } catch (error) {
-  //       setValues(prevState => ({
-  //         ...prevState,
-  //         data: { ...prevState.data, errors: error.message }
-  //       }));
-  //     }
-  //   };
-  //   apiCall();
-
-  //   return () => (userChangedSearchTerm = true);
-  // }, [isValidated]);
-
   const apiCall = async () => {
     const { username, typeOfUser } = form;
     try {
@@ -80,23 +49,21 @@ const App = () => {
       if (response.status !== 200) {
         throw Error(body.message);
       }
-        setValues(prevState => ({
-          ...prevState,
-          data: { ...prevState.data, body: body, errors: false }
-        }));
+      setValues(prevState => ({
+        ...prevState,
+        data: { ...prevState.data, body: body, errors: false }
+      }));
     } catch (error) {
       setValues(prevState => ({
         ...prevState,
         data: { ...prevState.data, errors: error.message }
       }));
     }
-  }
+  };
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (!form.errors.username)
-      apiCall()
-      // setValidation(prevState => ({ ...prevState, isValidated: true }));
+    if (!form.errors.username) apiCall();
   };
 
   const { errors, username } = form;
@@ -115,7 +82,7 @@ const App = () => {
           handleChange={handleChange}
           username={username}
         />
-        { !form.errors.username && <ReposContainer repos={form.data.body}/>}
+        {!form.errors.username && <ReposContainer repos={form.data.body} />}
       </main>
     </div>
   );

@@ -3,8 +3,6 @@ import React from "react";
 import {ReposListContainer} from './styledCSS'
 import RepoCard from "../components/repoCard";
 
-
-
 export default ({ repos }) => {
   if (!repos.length) return null;
   const repoList = repos.map((repo, index) => (

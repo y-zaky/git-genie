@@ -1,10 +1,8 @@
 import React from "react";
 
-// import ErrorMessage from '../components/ErrorMessage'
 import { Input, Dropdown, ErrorMessage, Form } from "./styledCSS";
 
 export default ({ handleChange, handleSubmit, username, errors }) => {
-  // console.log("err herfe", username);
   return (
     <Form id={"searchForm"} onSubmit={handleSubmit}>
       <label for={"typeOfUser"}>I want to find the repos for the</label>

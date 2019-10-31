@@ -3,18 +3,19 @@ A tool to allow anyone to search for repos created by a user or organisation
 
 # Features! 💻
 
-  [x] Responsive mobile design 
-  [x] Uses React on the front end (create-react-app), with Hooks!
-  [x] Uses Express on the backend
-  [x] Makes github API calls via backend server
-  [x] Validation
+  - [x] Responsive mobile design 
+  - [x] Uses React on the front end (create-react-app), with Hooks!
+  - [x] Uses Express on the backend
+  - [x] Makes github API calls via backend server
+  - [x] Validation
+  
     
   # ToDo's 🔧
-  [ ] Write Tests
-  [ ] Error Handling UI - (so far the code catches errors but UI not built)
-  [ ] Improve design
-  [ ] Fix bugs
-  [ ] Allow filtered searches (eg repos made in the last 7 days)
+  - [ ] Write Tests
+  - [ ] Error Handling UI - (so far the code catches errors but UI not built)
+  - [ ] Improve design
+  - [ ] Fix bugs
+  - [ ] Allow filtered searches (eg repos made in the last 7 days)
   
 
  # Key Learning Takeaway's 📚
